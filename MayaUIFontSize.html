@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Change Maya Font Size</title>
+    <script type="text/javascript">
+    var fontSizeDelta=0;
+
+      function changeFontSize(a){
+        var os=parseInt(document.getElementById('os').value);
+        if(os==0){
+          alert("Please specify the Operating System");
+          return null;
+        }
+
+        fontSizeDelta+=a;
+         document.getElementById('delta').innerHTML="Wait...";
+         setTimeout(function(){
+           changeFontSizeBy(a,os);
+         }, 0);
+      }
+
+      function changeFontSizeBy(d,os){
+        var s=document.getElementById('src').value;
+        osPatt=[null,null,null];
+        osPatt[1]=/(_win_en_US = ")\d{2}/g;
+        osPatt[2]=/(_mac = ")\d{2}/g;
+        osPatt[3]=/(_nix = ")\d{2}/g;
+
+        s=s.replace(osPatt[os] ,function(a) { return a.replace(/\d+/, function(val) { return parseInt(val)+d; });; });
+        document.getElementById('src').value=s;
+
+        setTimeout(function(){
+          updateDelta();
+        }, 0);
+
+      }
+
+      function updateDelta(){
+        document.getElementById('delta').innerHTML=(fontSizeDelta<0?"":"+") + fontSizeDelta;
+      }
+    </script>
+  </head>
+  <body>
+    <h2>Change Maya UI Font Size</h2>
+    <h3 style="color:red">IMPORTANT:</h3>
+    <ul>
+        <li>Before doing anything, please make a copy of the file "MayaStrings" and rename it to "MayaStrings_Old", just in case you wanted to go back to old settings.</li>
+        <li>This tool was tested on Maya 2020 settings, I haven't tested on other versions. Use at your own risk!</li>
+    </ul>
+
+    <h3>Follow these steps:</h3>
+    <ol>
+      <li>Go to the install directory of Maya 2020. Depending on your OS, it should be:
+        <ul>
+          <li>Windows: <b>C:\Program Files\Autodesk\Maya2020\</b></li>
+          <li>MacOS: <b>/Applications/Maya 2020/Maya.app/</b></li>
+          <li>Linux: <b>/usr/autodesk/Maya2020</b></li>
+        </ul>
+      <li>Open "<b>resources</b>" directory. Then using Notepad or Notepad++ open the file <b>MayaStrings</b></li>
+      <li>Select All text (using CTRL+A) and then copy (CTRL+C)</li>
+      <li>Paste the in text area below (CTRL+V)</li>
+      <li>Now you can click (Increase Font Size) or (Decrase Font Size) to change increase or decrease font size by 1.</li>
+      <li>When done, select all the text in the text area below (CTRL+A), then copy (CTRL+C)</li>
+      <li>Go back to the (MayaStrings) file, select all text (CTRL+A), then paste (CTRL+V)</li>
+      <li>Hit CTRL+S to save the file.</li>
+      <li>Relaunch Maya, and the UI font size should be changed.</li>
+    </ol>
+    <hr>
+    <select id="os">
+    <option value="0">Operating System</option>
+     <option value="1">Windows OS</option>
+     <option value="2">Mac OS</option>
+     <option value="3">Linux OS</option>
+    </select>
+    <button type="button" onclick="changeFontSize(1)">Increase Font Size</button>
+    <button type="button" onclick="changeFontSize(-1)">Decrase Font Size</button>
+    <label for="">Font Size Change = </label><strong><label id='delta'>0</label></strong>
+    <hr>
+    <textarea spellcheck="false" id="src" rows="15" cols="200" style="width:99%;"></textarea>
+  </body>
+</html>
