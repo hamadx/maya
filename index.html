@@ -23,9 +23,9 @@
       function changeFontSizeBy(d,os){
         var s=document.getElementById('src').value;
         osPatt=[null,null,null];
-        osPatt[1]=/(_win_en_US = ")\d{2}/g;
-        osPatt[2]=/(_mac = ")\d{2}/g;
-        osPatt[3]=/(_nix = ")\d{2}/g;
+        osPatt[1]=/(_win_en_US = ")\d{1,2}/g;
+        osPatt[2]=/(_mac = ")\d{1,2}/g;
+        osPatt[3]=/(_nix = ")\d{1,2}/g;
 
         s=s.replace(osPatt[os] ,function(a) { return a.replace(/\d+/, function(val) { return parseInt(val)+d; });; });
         document.getElementById('src').value=s;
@@ -45,7 +45,7 @@
     <h2>Change Maya UI Font Size</h2>
     <h3 style="color:red">IMPORTANT:</h3>
     <ul>
-        <li>Before doing anything, please make a copy of the file "MayaStrings" and rename it to "MayaStrings_Old", just in case you wanted to go back to old settings.</li>
+        <li>Before doing anything, please make a copy of the original "MayaStrings" file and rename it to "MayaStrings_Old", just in case you wanted to go back to old settings.</li>
         <li>This tool was tested on Maya 2020 settings, I haven't tested on other versions. Use at your own risk!</li>
     </ul>
 
@@ -77,6 +77,6 @@
     <button type="button" onclick="changeFontSize(-1)">Decrase Font Size</button>
     <label for="">Font Size Change = </label><strong><label id='delta'>0</label></strong>
     <hr>
-    <textarea spellcheck="false" id="src" rows="15" cols="200" style="width:99%;"></textarea>
+    <textarea spellcheck="false" id="src" rows="15" cols="200" style="width:99%;" placeholder="Paste the content of MayaStrings file here..."></textarea>
   </body>
 </html>
